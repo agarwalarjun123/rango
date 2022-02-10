@@ -128,7 +128,6 @@ STATICFILES_DIRS = [
 ]
 
 ## Media Configuration
-
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 

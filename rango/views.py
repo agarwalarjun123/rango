@@ -4,7 +4,6 @@ from django.shortcuts import redirect, render
 from rango.forms import CategoryForm, PageForm
 from .models import Category, Page
 
-
 # Create your views here.
 
 def index(request):
@@ -55,7 +54,7 @@ def add_page(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
     except Category.DoesNotExist:
-        return redirect('/rango/')
+       return redirect('/rango/')
     if request.method == 'POST':
         page = request.POST
         page = PageForm(page)
