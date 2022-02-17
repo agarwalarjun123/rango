@@ -1,3 +1,4 @@
+import datetime
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -16,6 +17,8 @@ def index(request):
     context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
     context_dict['categories'] = category_list
     context_dict['pages'] = pages_list
+    request.session.set_test_cookie()
+    visitor_cookie_handler(request)
     return render(request, 'rango/index.html', context_dict)
 
 
@@ -34,6 +37,11 @@ def show_category(request, category_name_slug):
 
 def about(request):
     context_dict = {'boldmessage': 'Crunchy, creamy, cookie, candy, cupcake!'}
+    if request.session.test_cookie_worked():
+        print("TEST COOKIE WORKED!")
+        request.session.delete_test_cookie()
+    visitor_cookie_handler(request)
+    context_dict['visits'] = int(get_server_side_cookie(request,'visits','1'))
     return render(request, 'rango/about.html', context_dict)
 
 @login_required
@@ -121,7 +129,22 @@ def user_logout(request):
 
         
         
-        
+
+## HELPER FUNCTIONS
+def get_server_side_cookie(request, cookie, default_val=None):
+    val = request.session.get(cookie)
+    return val or default_val
+
+def visitor_cookie_handler(request):
+    visits = int(get_server_side_cookie(request,'visits',1))
+    last_visit_time = datetime.datetime.fromisoformat(get_server_side_cookie(request,'last_visit',datetime.datetime.utcnow().isoformat('T')))
+    if datetime.datetime.utcnow()  > last_visit_time + datetime.timedelta(days=1):
+        visits += 1
+        last_visit_time = datetime.datetime.utcnow()
+    request.session['visits'] = visits
+    request.session['last_visit'] = last_visit_time.isoformat('T')
+
+
 
 
     
