@@ -19,7 +19,7 @@ STATIC_DIR = os.path.join(BASE_DIR,'static')
 MEDIA_DIR = os.path.join(BASE_DIR,'media')
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 FORM_MAX_LENGTH = 128
-
+LOGIN_URL='rango:login'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 

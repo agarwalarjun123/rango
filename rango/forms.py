@@ -1,6 +1,9 @@
 
+from dataclasses import field
 import re
-from .models import Category,Page
+from xml.etree.ElementInclude import include
+from .models import Category,Page, UserProfile
+from django.contrib.auth.models import User
 from django import forms
 from django.conf import settings
 from django.core import validators
@@ -20,3 +23,14 @@ class PageForm(forms.ModelForm):
     class Meta:
         model = Page
         exclude = ('category',)
+
+class UserForm(forms.ModelForm):
+    password = forms.CharField(widget = forms.PasswordInput())
+    class Meta:
+        model = User
+        fields = ('username','password', 'email')
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('website','picture')

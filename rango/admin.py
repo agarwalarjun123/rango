@@ -8,3 +8,4 @@ class PageAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(models.Category, CategoryAdmin)
 admin.site.register(models.Page,PageAdmin)
+admin.site.register(models.UserProfile)
